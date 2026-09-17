@@ -68,6 +68,25 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBackup, fiscalYear, onOpen
               <Download className="w-3.5 h-3.5 text-slate-300" />
               <span>Data Backup</span>
             </button>
+
+            {onSignOut && (
+              <div className="flex items-center gap-2 pl-1">
+                {userEmail && (
+                  <span className="hidden lg:inline text-slate-400 max-w-[180px] truncate" title={userEmail}>
+                    {userEmail}
+                  </span>
+                )}
+                <button
+                  onClick={onSignOut}
+                  id="header-sign-out-btn"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-slate-800 hover:bg-rose-700 border border-slate-700 text-slate-200 hover:text-white transition-colors cursor-pointer"
+                  title="Sign out"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Sign out</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
