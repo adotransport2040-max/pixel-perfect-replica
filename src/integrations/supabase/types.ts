@@ -14,7 +14,201 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      app_settings: {
+        Row: {
+          categories: string[]
+          payment_types: string[]
+          updated_at: string
+          user_id: string
+          vat_types: string[]
+        }
+        Insert: {
+          categories?: string[]
+          payment_types?: string[]
+          updated_at?: string
+          user_id: string
+          vat_types?: string[]
+        }
+        Update: {
+          categories?: string[]
+          payment_types?: string[]
+          updated_at?: string
+          user_id?: string
+          vat_types?: string[]
+        }
+        Relationships: []
+      }
+      parties: {
+        Row: {
+          address: string | null
+          contact_person: string | null
+          created_at: string
+          credit_days: number | null
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          pan_or_vat: string
+          phone: string | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          contact_person?: string | null
+          created_at?: string
+          credit_days?: number | null
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          pan_or_vat?: string
+          phone?: string | null
+          type?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          contact_person?: string | null
+          created_at?: string
+          credit_days?: number | null
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          pan_or_vat?: string
+          phone?: string | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      purchase_bills: {
+        Row: {
+          after_vat: number
+          before_vat: number
+          bills_description: string
+          bs_month: number
+          bs_year: number
+          created_at: string
+          date_bs: string
+          fiscal_year: string
+          id: string
+          invoice_no: string
+          pan: string
+          party_name: string
+          sn: number | null
+          user_id: string
+          vat: number
+          vat_no: string
+        }
+        Insert: {
+          after_vat?: number
+          before_vat?: number
+          bills_description?: string
+          bs_month: number
+          bs_year: number
+          created_at?: string
+          date_bs?: string
+          fiscal_year?: string
+          id: string
+          invoice_no?: string
+          pan?: string
+          party_name?: string
+          sn?: number | null
+          user_id: string
+          vat?: number
+          vat_no?: string
+        }
+        Update: {
+          after_vat?: number
+          before_vat?: number
+          bills_description?: string
+          bs_month?: number
+          bs_year?: number
+          created_at?: string
+          date_bs?: string
+          fiscal_year?: string
+          id?: string
+          invoice_no?: string
+          pan?: string
+          party_name?: string
+          sn?: number | null
+          user_id?: string
+          vat?: number
+          vat_no?: string
+        }
+        Relationships: []
+      }
+      sales_bills: {
+        Row: {
+          after_vat: number
+          before_vat: number
+          bs_month: number
+          bs_year: number
+          buyer_address: string | null
+          buyer_name: string
+          category: string
+          created_at: string
+          date_bs: string
+          fiscal_year: string
+          id: string
+          invoice_no: string
+          item_description: string | null
+          party_name: string | null
+          payment_method: string
+          sn: number | null
+          user_id: string
+          vat: number
+          vat_no: string
+          vat_type: string
+        }
+        Insert: {
+          after_vat?: number
+          before_vat?: number
+          bs_month: number
+          bs_year: number
+          buyer_address?: string | null
+          buyer_name?: string
+          category?: string
+          created_at?: string
+          date_bs?: string
+          fiscal_year?: string
+          id: string
+          invoice_no?: string
+          item_description?: string | null
+          party_name?: string | null
+          payment_method?: string
+          sn?: number | null
+          user_id: string
+          vat?: number
+          vat_no?: string
+          vat_type?: string
+        }
+        Update: {
+          after_vat?: number
+          before_vat?: number
+          bs_month?: number
+          bs_year?: number
+          buyer_address?: string | null
+          buyer_name?: string
+          category?: string
+          created_at?: string
+          date_bs?: string
+          fiscal_year?: string
+          id?: string
+          invoice_no?: string
+          item_description?: string | null
+          party_name?: string | null
+          payment_method?: string
+          sn?: number | null
+          user_id?: string
+          vat?: number
+          vat_no?: string
+          vat_type?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
