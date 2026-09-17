@@ -1,14 +1,16 @@
 import React from 'react';
-import { Truck, ShieldCheck, Download, Upload, RefreshCw, FileText, UserPlus } from 'lucide-react';
+import { Truck, ShieldCheck, Download, Upload, RefreshCw, FileText, UserPlus, LogOut } from 'lucide-react';
 import { COMPANY_INFO } from '../utils/storage';
 
 interface HeaderProps {
   onOpenBackup: () => void;
   fiscalYear: string;
   onOpenAddParty?: () => void;
+  userEmail?: string;
+  onSignOut?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenBackup, fiscalYear, onOpenAddParty }) => {
+export const Header: React.FC<HeaderProps> = ({ onOpenBackup, fiscalYear, onOpenAddParty, userEmail, onSignOut }) => {
   return (
     <header className="bg-slate-900 text-white border-b border-slate-800 shadow-md print:hidden" id="app-header">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
