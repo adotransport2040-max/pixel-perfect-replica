@@ -132,7 +132,7 @@ export default function App({ userEmail, onSignOut }: AppProps = {}) {
 
   const handleSaveDropdownSettings = (newSettings: DropdownSettings) => {
     setDropdownSettings(newSettings);
-    saveDropdownSettings(newSettings);
+    saveSettingsToCloud(newSettings).catch(reportError);
   };
 
   const handleViewPurchaseExcel = (bill: PurchaseBill) => {
@@ -151,18 +151,6 @@ export default function App({ userEmail, onSignOut }: AppProps = {}) {
     setIsExcelViewOpen(true);
   };
 
-  // Save changes to localStorage
-  useEffect(() => {
-    savePurchaseBills(purchaseBills);
-  }, [purchaseBills]);
-
-  useEffect(() => {
-    saveSalesBills(salesBills);
-  }, [salesBills]);
-
-  useEffect(() => {
-    saveParties(knownParties);
-  }, [knownParties]);
 
   const handleYearChange = (year: number) => {
     setSelectedYear(year);
