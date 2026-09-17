@@ -20,21 +20,30 @@ import { ExcelViewModal } from './components/ExcelViewModal';
 import { DropdownSettingsModal } from './components/DropdownSettingsModal';
 import { AddPartyModal } from './components/AddPartyModal';
 import {
-  loadPurchaseBills,
-  savePurchaseBills,
-  loadSalesBills,
-  saveSalesBills,
-  loadParties,
-  saveParties,
   loadInitialYearMonth,
   saveActiveYearMonth,
-  loadDropdownSettings,
-  saveDropdownSettings,
+  DEFAULT_DROPDOWN_SETTINGS,
   COMPANY_INFO,
 } from './utils/storage';
+import {
+  fetchAllCloudData,
+  savePurchaseToCloud,
+  saveSalesToCloud,
+  deletePurchaseFromCloud,
+  deleteSalesFromCloud,
+  savePartyToCloud,
+  saveSettingsToCloud,
+  deleteAllCloudData,
+  replaceAllCloudData,
+} from './utils/cloudStorage';
 import { getFiscalYear } from './utils/nepaliCalendar';
 
-export default function App() {
+interface AppProps {
+  userEmail?: string;
+  onSignOut?: () => void;
+}
+
+export default function App({ userEmail, onSignOut }: AppProps = {}) {
   // Navigation
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
 
@@ -43,13 +52,43 @@ export default function App() {
   const [selectedYear, setSelectedYear] = useState<number>(initialYM.year);
   const [selectedMonth, setSelectedMonth] = useState<number>(initialYM.month);
 
-  // Main Data Collections
-  const [purchaseBills, setPurchaseBills] = useState<PurchaseBill[]>(() => loadPurchaseBills());
-  const [salesBills, setSalesBills] = useState<SalesBill[]>(() => loadSalesBills());
-  const [knownParties, setKnownParties] = useState<PartyRecord[]>(() => loadParties());
-  const [dropdownSettings, setDropdownSettings] = useState<DropdownSettings>(() =>
-    loadDropdownSettings()
-  );
+  // Main Data Collections (stored permanently in the cloud database)
+  const [purchaseBills, setPurchaseBills] = useState<PurchaseBill[]>([]);
+  const [salesBills, setSalesBills] = useState<SalesBill[]>([]);
+  const [knownParties, setKnownParties] = useState<PartyRecord[]>([]);
+  const [dropdownSettings, setDropdownSettings] =
+    useState<DropdownSettings>(DEFAULT_DROPDOWN_SETTINGS);
+  const [isLoadingData, setIsLoadingData] = useState(true);
+  const [dataError, setDataError] = useState<string | null>(null);
+
+  const reportError = (err: unknown) => {
+    console.error(err);
+    setDataError(
+      err instanceof Error ? err.message : 'Could not save to the cloud. Please try again.'
+    );
+  };
+
+  // Initial load from the cloud database
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const snapshot = await fetchAllCloudData();
+        if (cancelled) return;
+        setPurchaseBills(snapshot.purchases);
+        setSalesBills(snapshot.sales);
+        setKnownParties(snapshot.parties);
+        setDropdownSettings(snapshot.settings);
+      } catch (err) {
+        if (!cancelled) reportError(err);
+      } finally {
+        if (!cancelled) setIsLoadingData(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Modals
   const [isFormOpen, setIsFormOpen] = useState(false);
